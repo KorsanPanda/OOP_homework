@@ -1,0 +1,30 @@
+#include <iostream>
+#include <vector>
+#include <ctime>
+#include <cstdlib>
+using namespace std;
+
+// Temel oyun sınıfı
+class Oyun {
+protected:
+    int str;                                    // Satır sayısı
+    int stn;                                    // Sütun sayısı
+    int toplamMayin;                            // Oyundaki toplam mayın sayısı
+
+public:
+    Oyun(int str, int stn, int mayin) : str(str), stn(stn), toplamMayin(mayin) {}
+    virtual void tahtaGoster() = 0;             // Tahtayı görüntülemek için sanal fonksiyon
+    virtual bool hamleYap(int x, int y) = 0;    // Hamle yapma işlemi
+    virtual bool kazandiMi() = 0;               // Oyuncunun kazanıp kazanmadığını kontrol eder
+    virtual ~Oyun() {}
+};
+
+// Hücre sınıfı
+class Hucre {
+public:
+    bool mayinMi;      // Hücrede mayın olup olmadığını kontrol eder
+    bool acildiMi;     // Hücrenin açılıp açılmadığını kontrol eder
+    int komsuMayinlar; // Hücrenin çevresindeki mayın sayısını tutar
+
+    Hucre() : mayinMi(false), acildiMi(false), komsuMayinlar(0) {} // Varsayılan değerleri ayarlar
+};
