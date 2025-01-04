@@ -84,3 +84,63 @@ private:
             }
         }
     }
+
+public:
+    MayinTarlasi(int str, int stn, int mayin) : Oyun(str, stn, mayin) {
+        alan.resize(str, vector<Hucre>(stn)); // Oyun alanını boyutlandır
+        mayinlariYerlestir(); // Mayınları yerleştir
+    }
+
+    // Tahtayı görüntülemek için sanal fonksiyon
+    void tahtaGoster() {
+        for (int i = 0; i < str; ++i) {
+            for (int j = 0; j < stn; ++j) {
+                if (!alan[i][j].acildiMi) {
+                    cout << "# "; // Açılmamış hücreler
+                }
+                else if (alan[i][j].mayinMi) {
+                    cout << "* "; // Mayınlı hücreler
+                }
+                else {
+                    cout << alan[i][j].komsuMayinlar << " "; // Komşu mayın sayısı
+                }
+            }
+            cout << endl;
+        }
+    }
+
+    // Hamle yapma işlemi
+    bool hamleYap(int x, int y) {
+        try {
+            if (!gecerliHucreMi(x, y)) {
+                throw out_of_range("Hatali koordinatlar girdiniz lutfen tekrar giriniz.");
+            }
+
+            if (alan[x][y].mayinMi) {
+                cout << "**GAME OVER** Mayina bastiniz!" << endl;
+                return false; // Oyun sona erdi
+            }
+
+            hucreAc(x, y); // Hücreyi açar
+        }
+        catch (const out_of_range& e) {
+            cout << e.what() << endl;
+            return true; // Geçersiz giriş olduğunda oyuna devam eder
+        }
+
+        return true; // Oyun devam ediyor
+    }
+
+    // Oyuncunun kazanıp kazanmadığını kontrol eder
+    bool kazandiMi() {
+        int acilanHucre = 0;
+        for (int i = 0; i < str; ++i) {
+            for (int j = 0; j < stn; ++j) {
+                if (alan[i][j].acildiMi) {
+                    acilanHucre++;
+                }
+            }
+        }
+        return (acilanHucre + toplamMayin == str * stn); // Kazanma koşulu
+    }
+};
