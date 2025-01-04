@@ -28,3 +28,59 @@ public:
 
     Hucre() : mayinMi(false), acildiMi(false), komsuMayinlar(0) {} // Varsayılan değerleri ayarlar
 };
+// MAYIN TARLASI SINIFI
+class MayinTarlasi : public Oyun {
+private:
+    vector<vector<Hucre>> alan; // OYUN ALANINI TEMSİL EDER
+
+    // GEÇERLİ BİR HÜCRE Mİ DİYE KONTROL YAPAR
+    bool gecerliHucreMi(int x, int y) {
+        return x >= 0 && x < str && y >= 0 && y < stn;
+    }
+
+    // MAYINLARI RASTGELE YERLEŞTİRİR
+    void mayinlariYerlestir() {
+        int yerlestirilenMayin = 0;
+        srand(time(0)); // ZAMANA BAĞLI RASTGELE SAYI ÜRETME
+
+        while (yerlestirilenMayin < toplamMayin) {
+            int x = rand() % str;
+            int y = rand() % stn;
+
+            if (!alan[x][y].mayinMi) {
+                alan[x][y].mayinMi = true; // HÜCREYE MAYIN YERLEŞTİR
+                yerlestirilenMayin++;
+                komsuHucreleriGuncelle(x, y); // KOMŞU HÜCRELERİN SAYACINI ARTTIR
+            }
+        }
+    }
+
+    // KOMŞU HÜCRELERİN ÇEVRESİNDEKİ MAYIN SAYISINI GÜNCELLER
+    void komsuHucreleriGuncelle(int x, int y) {
+        for (int dx = -1; dx <= 1; ++dx) {
+            for (int dy = -1; dy <= 1; ++dy) {
+                int nx = x + dx;
+                int ny = y + dy;
+
+                if (gecerliHucreMi(nx, ny) && !alan[nx][ny].mayinMi) {
+                    alan[nx][ny].komsuMayinlar++;
+                }
+            }
+        }
+    }
+
+    // BİR HÜCREYİ AÇAR
+    void hucreAc(int x, int y) {
+        if (!gecerliHucreMi(x, y) || alan[x][y].acildiMi) return;
+
+        alan[x][y].acildiMi = true; // HÜCREYİ AÇ
+
+        // EĞER HÜCRE BOŞSA (SIFIR), ÇEVRESİNDEKİ HÜCRELERİ AÇ
+        if (alan[x][y].komsuMayinlar == 0 && !alan[x][y].mayinMi) {
+            for (int dx = -1; dx <= 1; ++dx) {
+                for (int dy = -1; dy <= 1; ++dy) {
+                    hucreAc(x + dx, y + dy);
+                }
+            }
+        }
+    }
