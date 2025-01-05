@@ -147,6 +147,33 @@ public:
 
 int main() {
     int satirlar, sutunlar, mayinlar;
+     int zorluk;
+
+ cout << "Zorluk seviyesi secin (1: Kolay, 2: Orta, 3: Zor): ";
+ cin >> zorluk;
+
+ switch (zorluk) {
+ case 1:                 //Kolay seviye
+     satirlar = 5;
+     sutunlar = 5;
+     mayinlar = 5;
+     break;
+ case 2:                 //Orta seviye
+     satirlar = 6;
+     sutunlar = 6;
+     mayinlar = 8;
+     break;
+ case 3:                 //Zor seviye
+     satirlar = 7;
+     sutunlar = 7;
+     mayinlar = 10;
+     break;
+ default:
+     cout << "Gecersiz zorluk seviyesi, varsayilan olarak Kolay secildi." << endl;
+     satirlar = 5;
+     sutunlar = 5;
+     mayinlar = 5;
+ }
 
     MayinTarlasi oyun(satirlar, sutunlar, mayinlar);
 
