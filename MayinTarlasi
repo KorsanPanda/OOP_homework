@@ -144,3 +144,30 @@ public:
         return (acilanHucre + toplamMayin == str * stn); // Kazanma koşulu
     }
 };
+
+int main() {
+    int satirlar, sutunlar, mayinlar;
+
+    MayinTarlasi oyun(satirlar, sutunlar, mayinlar);
+
+    while (true) {
+        system("cls");                       // Ekranı temizler
+        oyun.tahtaGoster();                 // Tahtayı gösterir
+
+        cout << "Satir numarasini girin: ";
+        int x;
+        cin >> x;
+        cout << "Sutun numarasini girin: ";
+        int y;
+        cin >> y;
+
+        if (!oyun.hamleYap(x, y)) break;    // Hamle başarısızsa oyun sona erer
+
+        if (oyun.kazandiMi()) {
+            cout << "Tebrikler! Kazandiniz!" << endl;
+            break;                          // Oyuncu kazanırsa oyun sona erer
+        }
+    }
+
+    return 0;
+}
